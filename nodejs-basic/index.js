@@ -1,5 +1,5 @@
-const message = (pesan) => {
-  console.log(`Hallo, ${pesan}`);
-}
+// const message = (pesan) => {
+//   console.log(`Hallo, ${pesan}`);
+// }
 
-message('JavaScript');
+// message('JavaScript');
