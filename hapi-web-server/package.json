@@ -1,0 +1,11 @@
+{
+  "name": "hapi-web-server",
+  "version": "1.0.0",
+  "description": "membangun web server menggunakan hapi",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Riki Widiantoro",
+  "license": "ISC"
+}
