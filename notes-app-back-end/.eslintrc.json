@@ -16,6 +16,9 @@
         "no-unused-vars": "off",
         "eol-last": "off",
         "semi": "off",
-        "quotes": "off"
+        "quotes": "off",
+        "no-undef": "off",
+        "object-curly-newline": "off",
+        "max-len": "off"
     }
 }
