@@ -12,7 +12,7 @@ const addBooksHandler = (request, h) => {
 
   // kontainer buku
   const newBook = {
-    name, year, author, summary, publisher, pageCount, readPage, reading, insertedAt, updatedAt,
+    id, name, year, author, summary, publisher, pageCount, readPage, reading, insertedAt, updatedAt,
   };
 
   books.push(newBook);
@@ -43,5 +43,12 @@ const addBooksHandler = (request, h) => {
 
 };
 
+// menampilkan semua buku
+const getAllBooksHandler = () => ({
+  status: 'success',
+  data: {
+    books,
+  },
+});
 
-module.exports = { addBooksHandler };
+module.exports = { addBooksHandler, getAllBooksHandler };
