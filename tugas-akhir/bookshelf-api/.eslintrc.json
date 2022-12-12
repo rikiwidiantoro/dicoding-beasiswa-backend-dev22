@@ -22,6 +22,11 @@
         "eol-last": "off",
         "no-multiple-empty-lines": "off",
         "padded-blocks": "off",
-        "object-curly-newline": "off"
+        "object-curly-newline": "off",
+
+        "no-const-assign": "off",
+        "no-return-assign": "off",
+        "no-trailing-spaces": "off",
+        "max-len": "off"
     }
 }
