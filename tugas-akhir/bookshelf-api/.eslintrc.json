@@ -27,6 +27,11 @@
         "no-const-assign": "off",
         "no-return-assign": "off",
         "no-trailing-spaces": "off",
-        "max-len": "off"
+        "max-len": "off",
+
+        "space-before-blocks": "off",
+        "array-callback-return": "off",
+        "key-spacing": "off",
+        "eqeqeq": "off"
     }
 }
