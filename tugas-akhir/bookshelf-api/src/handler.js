@@ -12,11 +12,40 @@ const addBooksHandler = (request, h) => {
 
   // finished => Nilai finished didapatkan dari observasi pageCount === readPage.
   let finished = Boolean;
-  if(pageCount === readPage) {
-    finished = true;
-  } else {
-    finished = false;
+  // if(pageCount === readPage) {
+  //   finished = true;
+  // } else {
+  //   finished = false;
+  // }
+  pageCount === readPage ? finished = true : finished = false;
+
+
+  // result jika Client tidak melampirkan properti namepada request body
+  if(!name) {
+    const response = h.response({
+      status: "fail",
+      message: "Gagal menambahkan buku. Mohon isi nama buku",
+      data: {
+        bookId: id,
+      },
+    });
+    response.code(400);
+    return response;
   }
+
+  // result jika Client melampirkan nilai properti readPage yang lebih besar dari nilai properti pageCount
+  if(readPage > pageCount) {
+    const response = h.response({
+      status: "fail",
+      message: "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
+      data: {
+        bookId: id,
+      },
+    });
+    response.code(400);
+    return response;
+  }
+
 
   // kontainer buku
   const newBook = {
@@ -26,9 +55,10 @@ const addBooksHandler = (request, h) => {
   books.push(newBook);
 
 
-  // pengondisian
+  // pengondisian response
   const isSuccess = books.filter((book) => book.id === id).length > 0;
 
+  // jika success 201
   if (isSuccess) {
     const response = h.response({
       status: 'success',
@@ -41,6 +71,7 @@ const addBooksHandler = (request, h) => {
     return response;
   }
 
+  // jika gagal 500
   const response = h.response({
     status: 'fail',
     message: 'Buku gagal ditambahkan',
@@ -52,37 +83,6 @@ const addBooksHandler = (request, h) => {
 };
 
 // menampilkan semua buku
-// const getAllBooksHandler = () => ({
-//   status: 'success',
-//   data: {
-//     books,
-//   },
-// });
-// const getAllBooksHandler = (request, h) => {
-//   const { name, reading, finished } = request.query;
-
-//   const data = [];
-
-//   books.map((book) => {
-//     if(book.name.toLowerCase().includes(name.toLowerCase())){
-//         data.push({
-//             id: book.id, name: book.name, publisher: book.publisher
-//         });
-//       }
-//   });
-
-//   const response = h.response({
-//     status: 'success',
-//     data: {
-//       books: data
-//     },
-//   });
-//   response.code(200);
-//   return response;
-// };
-
-
-
 const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query;
 
