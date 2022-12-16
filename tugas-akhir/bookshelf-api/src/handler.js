@@ -1,6 +1,8 @@
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
+
+
 // tambah buku
 const addBooksHandler = (request, h) => {
   // mengirim data
@@ -25,9 +27,6 @@ const addBooksHandler = (request, h) => {
     const response = h.response({
       status: "fail",
       message: "Gagal menambahkan buku. Mohon isi nama buku",
-      data: {
-        bookId: id,
-      },
     });
     response.code(400);
     return response;
@@ -38,9 +37,6 @@ const addBooksHandler = (request, h) => {
     const response = h.response({
       status: "fail",
       message: "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
-      data: {
-        bookId: id,
-      },
     });
     response.code(400);
     return response;
@@ -73,7 +69,7 @@ const addBooksHandler = (request, h) => {
 
   // jika gagal 500
   const response = h.response({
-    status: 'fail',
+    status: 'error',
     message: 'Buku gagal ditambahkan',
   });
 
@@ -81,6 +77,8 @@ const addBooksHandler = (request, h) => {
   return response;
 
 };
+
+
 
 // menampilkan semua buku
 const getAllBooksHandler = (request, h) => {
@@ -179,20 +177,27 @@ const getAllBooksHandler = (request, h) => {
   return response;
 };
 
+
+
 // menampilkan detail buku
 const getSingleBookHandler = (request, h) => {
   const { bookId } = request.params;
 
   const book = books.filter((n) => n.id === bookId)[0];
 
+  // result jila buku dengan id yang dilampirkan ditemukan
   if (book !== undefined) {
-    return {
+    const response = h.response({
       status: 'success',
       data: {
         book,
       },
-    };
+    });
+    response.code(200);
+    return response;
   }
+
+  // result jika buku dengan id yang dilampirkan oleh client tidak ditemukan
   const response = h.response({
     status: 'fail',
     message: 'Buku tidak ditemukan',
@@ -200,6 +205,8 @@ const getSingleBookHandler = (request, h) => {
   response.code(404);
   return response;
 };
+
+
 
 // mengubah data buku
 const editBookHandler = (request, h) => {
@@ -210,10 +217,31 @@ const editBookHandler = (request, h) => {
 
   // finished => Nilai finished didapatkan dari observasi pageCount === readPage.
   let finished = Boolean;
-  if(pageCount === readPage) {
-    finished = true;
-  } else {
-    finished = false;
+  // if(pageCount === readPage) {
+  //   finished = true;
+  // } else {
+  //   finished = false;
+  // }
+  pageCount === readPage ? finished = true : finished = false;
+
+  // result jika client tidak melampirkan properti name pada request body
+  if(!name) {
+    const response = h.response({
+      status: "fail",
+      message: "Gagal memperbarui buku. Mohon isi nama buku"
+    });
+    response.code(400);
+    return response;
+  }
+
+  // result jika client melampirkan nilai properti readPage yang lebih besar dari nilai properti pageCount
+  if(readPage > pageCount) {
+    const response = h.response({
+      status: "fail",
+      message: "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
+    });
+    response.code(400);
+    return response;
   }
 
   const index = books.findIndex((book) => book.id === bookId);
@@ -232,6 +260,8 @@ const editBookHandler = (request, h) => {
       finished,
       updatedAt,
     };
+
+    // result jika buku berhasil diperbarui
     const response = h.response({
       status: 'success',
       message: 'Buku berhasil diperbarui',
@@ -239,6 +269,8 @@ const editBookHandler = (request, h) => {
     response.code(200);
     return response;
   }
+
+  // result jika Id yang dilampirkan oleh client tidak ditemukkan oleh server
   const response = h.response({
     status: 'fail',
     message: 'Gagal memperbarui buku. Id tidak ditemukan',
@@ -246,6 +278,8 @@ const editBookHandler = (request, h) => {
   response.code(404);
   return response;
 };
+
+
 
 // menghapus data buku
 const hapusBookHandler = (request, h) => {
@@ -255,6 +289,8 @@ const hapusBookHandler = (request, h) => {
 
   if (index !== -1) {
     books.splice(index, 1);
+    
+    // result id dimiliki oleh salah satu buku
     const response = h.response({
       status: 'success',
       message: 'Buku berhasil dihapus',
@@ -263,7 +299,7 @@ const hapusBookHandler = (request, h) => {
     return response;
   }
 
-  // Bila index bernilai -1, maka kembalikan handler dengan respons gagal.
+  // result jika id yang dilampirkan tidak dimiliki oleh buku manapun
   const response = h.response({
     status: 'fail',
     message: 'Buku gagal dihapus. Id tidak ditemukan',
