@@ -82,10 +82,12 @@ const addBooksHandler = (request, h) => {
 
 // menampilkan semua buku
 const getAllBooksHandler = (request, h) => {
+  
+  // fitur query parameters
   const { name, reading, finished } = request.query;
 
   if(name){
-     const data = [];
+    const data = [];
 
       books.map((book) => {
           if(book.name.toLowerCase().includes(name.toLowerCase())){
