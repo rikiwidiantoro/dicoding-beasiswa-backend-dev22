@@ -3,6 +3,10 @@ kelas diperoleh dari beasiswa DevOps & Backend Developer Scholarship 2022 oleh D
 
 ## Deskripsi tugas
 membuat aplikasi Bookshelf API
+link repository github :
+```
+https://github.com/rikiwidiantoro/dicoding-beasiswa-backend-dev22/tree/main/tugas-akhir/bookshelf-api
+```
 
 ## Tools yg digunakan
 - Framework Node.js : Hapi
