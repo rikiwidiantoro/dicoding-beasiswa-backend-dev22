@@ -6,6 +6,7 @@ membuat aplikasi Bookshelf API
 
 ## Tools yg digunakan
 - Framework Node.js : Hapi
+- ESLint
 - node version : v16.16.0
 - npm version : 8.19.2
 
